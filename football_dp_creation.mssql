@@ -1,0 +1,66 @@
+create database football;
+
+CREATE TABLE football.`teams` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `commission` double DEFAULT NULL,
+  `finances` double DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ;
+
+
+CREATE TABLE football.`players` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `age` int DEFAULT NULL,
+  `experience` int DEFAULT NULL,
+  `team_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `team_id` (`team_id`),
+  CONSTRAINT `players_ibfk_1` FOREIGN KEY (`team_id`) REFERENCES football.`teams` (`id`)
+);
+
+INSERT INTO football.teams (name, commission, finances)
+VALUES ('Karpaty', 6, 12000000);
+INSERT INTO football.teams (name, commission, finances)
+VALUES ('Veres', 4, 8000000);
+INSERT INTO football.teams (name, commission, finances)
+VALUES ('Real', 5, 10000000);
+INSERT INTO football.teams (name, commission, finances)
+VALUES ('PSG', 10, 22000000);
+
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Leo', 22, 98, 1);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Mark', 33, 140, 1);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Taras', 22, 44, 1);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Ivan', 28, 67, 1);
+
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Vlad', 19, 32, 2);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Kostya', 33, 140, 2);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Vasya', 27, 88, 2);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Stas', 28, 34, 2);
+
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Mike', 21, 44, 3);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('John', 33, 140, 3);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Bob', 27, 88, 3);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Jack', 28, 34, 3);
+
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Cris', 21, 44, 4);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Joshua', 33, 140, 4);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Syava', 27, 88, 4);
+INSERT INTO football.players (name, age, experience, team_id)
+VALUES ('Seva', 28, 34, 4);
