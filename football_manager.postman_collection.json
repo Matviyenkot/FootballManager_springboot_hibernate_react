@@ -103,7 +103,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1,\n    \"name\": \"Karpaty\",\n    \"commission\": 2.0,\n    \"finances\": 1.2208E7\n}",
+					"raw": "{\n    \"name\": \"Karpaty\",\n    \"commission\": 4.0,\n    \"finances\": 1.2208E7\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -111,7 +111,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/teams/update",
+					"raw": "http://localhost:8080/teams/update/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -119,7 +119,8 @@
 					"port": "8080",
 					"path": [
 						"teams",
-						"update"
+						"update",
+						"1"
 					]
 				}
 			},
@@ -202,7 +203,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1,\n    \"name\": \"Leo\",\n    \"age\": 24,\n    \"monthsOfExperience\": 98,\n    \"team\": 1\n}",
+					"raw": "{\n        \"name\": \"Smith\",\n        \"age\": 33,\n        \"monthsOfExperience\": 43\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -210,7 +211,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/players/update",
+					"raw": "http://localhost:8080/players/update/18",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -218,7 +219,8 @@
 					"port": "8080",
 					"path": [
 						"players",
-						"update"
+						"update",
+						"18"
 					]
 				}
 			},
