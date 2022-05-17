@@ -1,9 +1,10 @@
 package com.football.transfer.springboot_footballmanager.dao.impl;
 
+import com.football.transfer.springboot_footballmanager.RequestClasses.RequestTeam;
 import com.football.transfer.springboot_footballmanager.dao.TeamDAO;
 import com.football.transfer.springboot_footballmanager.entity.FootballTeam;
 import com.football.transfer.springboot_footballmanager.entity.Player;
-import com.football.transfer.springboot_footballmanager.handlers.NoSuchTeamsException;
+import com.football.transfer.springboot_footballmanager.handlers.NoSuchEntityException;
 import com.football.transfer.springboot_footballmanager.handlers.NotEnoughMoneyException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -34,8 +35,9 @@ public class TeamDAOImpl implements TeamDAO {
     public void saveTeam(FootballTeam footballTeam) {
         Session session = entityManager.unwrap(Session.class);
 
-        session.saveOrUpdate(footballTeam);
+        session.save(footballTeam);
     }
+
 
     @Override
     public FootballTeam getTeam(int id) {
@@ -56,6 +58,20 @@ public class TeamDAOImpl implements TeamDAO {
         query.executeUpdate();
     }
 
+    @Override
+    public FootballTeam updateTeam(RequestTeam updateTeam, FootballTeam currentTeam) {
+
+        Session session = entityManager.unwrap(Session.class);
+
+        currentTeam.setName(updateTeam.getName());
+        currentTeam.setFinances(updateTeam.getFinances());
+        currentTeam.setCommission(updateTeam.getCommission());
+
+        session.update(currentTeam);
+
+        return currentTeam;
+    }
+
 
     //player can have no team
     @Override
@@ -68,13 +84,13 @@ public class TeamDAOImpl implements TeamDAO {
         //player who is going to be transfered
         Player player = session.get(Player.class, playerId);
         if(player == null){
-            throw new NoSuchTeamsException("There is no player with id: " + playerId);
+            throw new NoSuchEntityException("There is no player with id: " + playerId);
         }
 
         //new team which is going to buy player
         FootballTeam newTeam = session.get(FootballTeam.class, teamId);
         if(newTeam == null){
-            throw new NoSuchTeamsException("There is no team with id: " + teamId);
+            throw new NoSuchEntityException("There is no team with id: " + teamId);
         }
 
         if(player.getTeam() != null){

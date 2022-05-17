@@ -1,5 +1,6 @@
 package com.football.transfer.springboot_footballmanager.service.impl;
 
+import com.football.transfer.springboot_footballmanager.RequestClasses.RequestTeam;
 import com.football.transfer.springboot_footballmanager.dao.TeamDAO;
 import com.football.transfer.springboot_footballmanager.entity.FootballTeam;
 import com.football.transfer.springboot_footballmanager.service.TeamService;
@@ -26,6 +27,13 @@ public class TeamServiceImpl implements TeamService {
     @Transactional
     public void saveTeam(FootballTeam footballTeam) {
         teamDAO.saveTeam(footballTeam);
+    }
+
+    @Override
+    public FootballTeam updateTeam(RequestTeam updateTeam, FootballTeam currentTeam) {
+
+
+        return teamDAO.updateTeam(updateTeam, currentTeam);
     }
 
     @Override

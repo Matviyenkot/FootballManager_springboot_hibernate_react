@@ -1,5 +1,6 @@
 package com.football.transfer.springboot_footballmanager.service.impl;
 
+import com.football.transfer.springboot_footballmanager.RequestClasses.RequestPlayer;
 import com.football.transfer.springboot_footballmanager.dao.PlayerDAO;
 import com.football.transfer.springboot_footballmanager.entity.Player;
 import com.football.transfer.springboot_footballmanager.service.PlayerService;
@@ -27,14 +28,12 @@ public class PlayerServiceImpl implements PlayerService {
         playerDAO.savePlayer(player);
     }
 
-
     @Override
     @Transactional
-    public Player updatePlayer(Player player) {
+    public Player updatePlayerX(RequestPlayer player, Player currentPlayer) {
 
 
-        return playerDAO.updatePlayer(player);
+        return playerDAO.updatePlayerX(player, currentPlayer);
     }
-
 
 }

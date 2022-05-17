@@ -1,5 +1,6 @@
 package com.football.transfer.springboot_footballmanager.dao.impl;
 
+import com.football.transfer.springboot_footballmanager.RequestClasses.RequestPlayer;
 import com.football.transfer.springboot_footballmanager.dao.PlayerDAO;
 import com.football.transfer.springboot_footballmanager.entity.Player;
 import org.hibernate.Session;
@@ -33,41 +34,18 @@ public class PlayerDAOImpl implements PlayerDAO {
 
 
     @Override
-    public Player updatePlayer(Player player) {
-
-        int id = player.getId();
-
-        String name = player.getName();
-
-        int age = player.getAge();
-
-        int monthsOfExperience = player.getMonthsOfExperience();
-
+    public Player updatePlayerX(RequestPlayer player, Player currentPlayer) {
 
         Session session = entityManager.unwrap(Session.class);
 
-        Player newPlayer = session.get(Player.class, id);
+        currentPlayer.setName(player.getName());
+        currentPlayer.setAge(player.getAge());
+        currentPlayer.setMonthsOfExperience(player.getMonthsOfExperience());
 
-        if (name != null) {
+        session.update(currentPlayer);
 
-            newPlayer.setName(name);
-        }
-
-        if (age != 0) {
-
-            newPlayer.setAge(age);
-        }
-
-        if (monthsOfExperience != 0) {
-
-            newPlayer.setMonthsOfExperience(monthsOfExperience);
-        }
-
-        session.update(newPlayer);
-
-
-        return newPlayer;
-
+        return currentPlayer;
     }
 
 }
+

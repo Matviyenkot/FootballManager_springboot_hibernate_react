@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalHandler {
 
     @ExceptionHandler
-    public ResponseEntity<TeamsIncorrectData> handleException(NoSuchTeamsException noSuchTeamsException){
+    public ResponseEntity<TeamsIncorrectData> handleException(NoSuchEntityException noSuchEntityException){
 
         TeamsIncorrectData data = new TeamsIncorrectData();
-        data.setInfo(noSuchTeamsException.getMessage());
+        data.setInfo(noSuchEntityException.getMessage());
 
         return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
     }

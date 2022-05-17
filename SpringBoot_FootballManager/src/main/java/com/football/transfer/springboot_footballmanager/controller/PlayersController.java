@@ -1,10 +1,11 @@
 package com.football.transfer.springboot_footballmanager.controller;
 
 
+import com.football.transfer.springboot_footballmanager.RequestClasses.RequestPlayer;
 import com.football.transfer.springboot_footballmanager.dao.PlayerRepo;
 import com.football.transfer.springboot_footballmanager.entity.Player;
 import com.football.transfer.springboot_footballmanager.handlers.IncorrectDataPutException;
-import com.football.transfer.springboot_footballmanager.handlers.NoSuchTeamsException;
+import com.football.transfer.springboot_footballmanager.handlers.NoSuchEntityException;
 import com.football.transfer.springboot_footballmanager.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,18 @@ public class PlayersController {
         }
     }
 
+    private void updatePlayerValidation(RequestPlayer player, Player currentPlayer, int id){
+        //check if player with such id exist
+        if(currentPlayer == null){
+            throw new NoSuchEntityException("There is no Player with id: " + id);
+        }
+        else if(player.getAge() < 18 && player.getAge()!=0
+                || player.getMonthsOfExperience() < 0 || player.getName() == null){
+            throw new IncorrectDataPutException("You had input wrong data! Check it please");
+        }
+
+    }
+
     @GetMapping("/get")
     private List<Player> getAllPlayers(){
 
@@ -44,7 +57,7 @@ public class PlayersController {
         Player player = playerService.getPlayer(id);
 
         if(player == null){
-            throw new NoSuchTeamsException("There is no player with id: " + id);
+            throw new NoSuchEntityException("There is no player with id: " + id);
         }
 
         return player;
@@ -62,13 +75,15 @@ public class PlayersController {
     }
 
 
-    @PutMapping("/update")
-    public Player updatePlayer(@RequestBody Player player){
 
-        if(player.getAge() < 18 && player.getAge()!=0 || player.getMonthsOfExperience() < 0){
-            throw new IncorrectDataPutException("You had input wrong data! Check it please");
-        }
-        return playerService.updatePlayer(player);
+    @PutMapping("/update/{id}")
+    public Player updatePlayerX(@RequestBody RequestPlayer player, @PathVariable int id){
+
+        Player currentPlayer = playerService.getPlayer(id);
+
+        updatePlayerValidation(player, currentPlayer, id);
+
+        return playerService.updatePlayerX(player, currentPlayer);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -77,7 +92,7 @@ public class PlayersController {
         Player player = playerService.getPlayer(id);
 
         if(player == null){
-            throw new NoSuchTeamsException("There is no player with id: " + id);
+            throw new NoSuchEntityException("There is no player with id: " + id);
         }
         playerRepo.deleteById(id);
     }

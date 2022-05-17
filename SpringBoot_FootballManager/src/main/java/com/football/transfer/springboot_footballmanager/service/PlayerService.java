@@ -1,5 +1,6 @@
 package com.football.transfer.springboot_footballmanager.service;
 
+import com.football.transfer.springboot_footballmanager.RequestClasses.RequestPlayer;
 import com.football.transfer.springboot_footballmanager.entity.Player;
 
 public interface PlayerService {
@@ -8,6 +9,7 @@ public interface PlayerService {
 
     public void savePlayer(Player player);
 
-    public Player updatePlayer(Player player);
+    public Player updatePlayerX(RequestPlayer player, Player currentPlayer);
+
 
 }
