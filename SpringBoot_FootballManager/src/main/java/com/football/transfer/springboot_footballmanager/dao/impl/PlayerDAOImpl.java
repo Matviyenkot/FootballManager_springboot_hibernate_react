@@ -1,16 +1,12 @@
 package com.football.transfer.springboot_footballmanager.dao.impl;
 
 import com.football.transfer.springboot_footballmanager.dao.PlayerDAO;
-import com.football.transfer.springboot_footballmanager.dao.PlayerRepo;
-import com.football.transfer.springboot_footballmanager.dao.TeamDAO;
-import com.football.transfer.springboot_footballmanager.entity.FootballTeam;
 import com.football.transfer.springboot_footballmanager.entity.Player;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.util.Optional;
 
 @Repository
 public class PlayerDAOImpl implements PlayerDAO {
@@ -40,10 +36,9 @@ public class PlayerDAOImpl implements PlayerDAO {
     @Override
     public Player updatePlayer(Player player){
 
-
         Session session = entityManager.unwrap(Session.class);
 
-        session.update(player);
+        session.merge(player);
 
         return player;
 

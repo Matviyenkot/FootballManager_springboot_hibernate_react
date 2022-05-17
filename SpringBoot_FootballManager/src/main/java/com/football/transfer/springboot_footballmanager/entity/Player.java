@@ -1,11 +1,13 @@
 package com.football.transfer.springboot_footballmanager.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
+@Validated
 @Entity
 @Table(name = "players")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Integer.class)
@@ -29,7 +31,7 @@ public class Player {
     private int monthsOfExperience;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "team_id", updatable = false)
     @JsonIdentityReference(alwaysAsId = true)
     private FootballTeam team;
 
