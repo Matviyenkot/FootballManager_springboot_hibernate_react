@@ -196,6 +196,35 @@
 			"response": []
 		},
 		{
+			"name": "updatePlayer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"name\": \"Leo\",\n    \"age\": 24,\n    \"monthsOfExperience\": 98,\n    \"team\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/players/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"players",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "deletePlayer",
 			"request": {
 				"method": "DELETE",
@@ -211,6 +240,28 @@
 						"players",
 						"delete",
 						"17"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transferPlayer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/teams/1/players/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"teams",
+						"1",
+						"players",
+						"2"
 					]
 				}
 			},

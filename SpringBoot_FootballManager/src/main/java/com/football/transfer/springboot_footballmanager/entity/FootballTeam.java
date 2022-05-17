@@ -1,6 +1,7 @@
 package com.football.transfer.springboot_footballmanager.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "teams")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Integer.class)
+@DynamicUpdate
 public class FootballTeam {
 
     @Id

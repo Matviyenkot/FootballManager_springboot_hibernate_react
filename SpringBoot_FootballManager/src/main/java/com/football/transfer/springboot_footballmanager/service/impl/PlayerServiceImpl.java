@@ -27,6 +27,7 @@ public class PlayerServiceImpl implements PlayerService {
         playerDAO.savePlayer(player);
     }
 
+
     @Override
     @Transactional
     public Player updatePlayer(Player player) {
@@ -34,4 +35,6 @@ public class PlayerServiceImpl implements PlayerService {
 
         return playerDAO.updatePlayer(player);
     }
+
+
 }

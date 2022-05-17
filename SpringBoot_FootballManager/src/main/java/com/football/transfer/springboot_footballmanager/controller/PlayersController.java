@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.DELETE, RequestMethod.POST, RequestMethod.PUT})
@@ -42,8 +41,11 @@ public class PlayersController {
     @GetMapping("/get/{id}")
     public Player getPlayer(@PathVariable int id){
 
-        Optional<Player> playerOptional = playerRepo.findById(id);
-        Player player = playerOptional.get();
+        Player player = playerService.getPlayer(id);
+
+        if(player == null){
+            throw new NoSuchTeamsException("There is no player with id: " + id);
+        }
 
         return player;
     }
@@ -60,12 +62,12 @@ public class PlayersController {
     }
 
 
-
     @PutMapping("/update")
     public Player updatePlayer(@RequestBody Player player){
 
-        validatePlayer(player);
-
+        if(player.getAge() < 18 && player.getAge()!=0 || player.getMonthsOfExperience() < 0){
+            throw new IncorrectDataPutException("You had input wrong data! Check it please");
+        }
         return playerService.updatePlayer(player);
     }
 
@@ -79,5 +81,7 @@ public class PlayersController {
         }
         playerRepo.deleteById(id);
     }
+
+
 
 }
