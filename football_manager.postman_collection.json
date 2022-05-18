@@ -103,7 +103,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Karpaty\",\n    \"commission\": 4.0,\n    \"finances\": 1.2208E7\n}",
+					"raw": "{\n    \"id\": 1,\n    \"name\": \"Karpaty\",\n    \"commission\": 3.0,\n    \"finances\": 1.2208E7\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -111,7 +111,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/teams/update/1",
+					"raw": "http://localhost:8080/teams/update",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -119,8 +119,7 @@
 					"port": "8080",
 					"path": [
 						"teams",
-						"update",
-						"1"
+						"update"
 					]
 				}
 			},

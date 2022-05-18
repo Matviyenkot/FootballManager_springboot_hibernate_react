@@ -56,12 +56,12 @@ public class TeamsController {
         return footballTeam;
     }
 
-    @PutMapping("/update/{id}")
-    public FootballTeam updateTeam(@RequestBody RequestTeam updateTeam, @PathVariable int id){
+    @PutMapping("/update")
+    public FootballTeam updateTeam(@RequestBody RequestTeam updateTeam){
 
-        FootballTeam currentTeam = getTeam(id);
+        FootballTeam currentTeam = getTeam(updateTeam.getId());
 
-        updateTeamValidation(updateTeam, currentTeam, id);
+        updateTeamValidation(updateTeam, currentTeam, updateTeam.getId());
 
         return teamService.updateTeam(updateTeam, currentTeam);
     }
