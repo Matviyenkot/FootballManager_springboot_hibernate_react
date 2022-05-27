@@ -1,9 +1,10 @@
 package com.football.transfer.springboot_footballmanager.dao.impl;
 
+import com.football.transfer.springboot_footballmanager.RequestClasses.RequestTeam;
 import com.football.transfer.springboot_footballmanager.dao.TeamDAO;
 import com.football.transfer.springboot_footballmanager.entity.FootballTeam;
 import com.football.transfer.springboot_footballmanager.entity.Player;
-import com.football.transfer.springboot_footballmanager.handlers.NoSuchTeamsException;
+import com.football.transfer.springboot_footballmanager.handlers.NoSuchEntityException;
 import com.football.transfer.springboot_footballmanager.handlers.NotEnoughMoneyException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -34,8 +35,9 @@ public class TeamDAOImpl implements TeamDAO {
     public void saveTeam(FootballTeam footballTeam) {
         Session session = entityManager.unwrap(Session.class);
 
-        session.saveOrUpdate(footballTeam);
+        session.save(footballTeam);
     }
+
 
     @Override
     public FootballTeam getTeam(int id) {
@@ -56,57 +58,13 @@ public class TeamDAOImpl implements TeamDAO {
         query.executeUpdate();
     }
 
-
-    //player can have no team
     @Override
-    public FootballTeam addPlayerToTeam(int teamId, int playerId) {
-
-        double price = 0;
+    public FootballTeam updateTeam( FootballTeam currentTeam) {
 
         Session session = entityManager.unwrap(Session.class);
 
-        //player who is going to be transfered
-        Player player = session.get(Player.class, playerId);
-        if(player == null){
-            throw new NoSuchTeamsException("There is no player with id: " + playerId);
-        }
+        session.update(currentTeam);
 
-        //new team which is going to buy player
-        FootballTeam newTeam = session.get(FootballTeam.class, teamId);
-        if(newTeam == null){
-            throw new NoSuchTeamsException("There is no team with id: " + teamId);
-        }
-
-        if(player.getTeam() != null){
-            //player's current team
-            FootballTeam playerCurrentTeam = player.getTeam();
-
-            //finances of new team
-            double newTeamFinances = newTeam.getFinances();
-
-            //commission of new team
-            double newTeamCommission = newTeam.getCommission()/100;
-
-            price = player.getMonthsOfExperience() * 100000.0 / player.getAge();
-            price = price + (price * newTeamCommission);
-
-            price = Math.round(price);
-
-            if(newTeamFinances < price){
-                throw new NotEnoughMoneyException("New team don't have enough money to buy player!");
-            }
-
-            playerCurrentTeam.setFinances(playerCurrentTeam.getFinances() + price);
-
-            newTeam.setFinances(newTeam.getFinances() - price);
-        }
-
-        newTeam.addPlayerToTeam(player);
-        session.saveOrUpdate(newTeam);
-
-
-        return newTeam;
+        return currentTeam;
     }
-
-
 }

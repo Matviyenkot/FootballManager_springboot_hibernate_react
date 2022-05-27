@@ -103,7 +103,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1,\n    \"name\": \"Karpaty\",\n    \"commission\": 2.0,\n    \"finances\": 1.2208E7\n}",
+					"raw": "{\n    \"id\": 1,\n    \"name\": \"Karpaty\",\n    \"commission\": 3.0,\n    \"finances\": 1.2208E7\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -196,6 +196,36 @@
 			"response": []
 		},
 		{
+			"name": "updatePlayer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"name\": \"Smith\",\n        \"age\": 33,\n        \"monthsOfExperience\": 43\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/players/update/18",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"players",
+						"update",
+						"18"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "deletePlayer",
 			"request": {
 				"method": "DELETE",
@@ -211,6 +241,28 @@
 						"players",
 						"delete",
 						"17"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transferPlayer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/teams/1/players/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"teams",
+						"1",
+						"players",
+						"2"
 					]
 				}
 			},

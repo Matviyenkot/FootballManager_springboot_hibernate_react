@@ -1,16 +1,16 @@
 package com.football.transfer.springboot_footballmanager.controller;
 
 
+import com.football.transfer.springboot_footballmanager.RequestClasses.RequestPlayer;
 import com.football.transfer.springboot_footballmanager.dao.PlayerRepo;
 import com.football.transfer.springboot_footballmanager.entity.Player;
 import com.football.transfer.springboot_footballmanager.handlers.IncorrectDataPutException;
-import com.football.transfer.springboot_footballmanager.handlers.NoSuchTeamsException;
+import com.football.transfer.springboot_footballmanager.handlers.NoSuchEntityException;
 import com.football.transfer.springboot_footballmanager.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.DELETE, RequestMethod.POST, RequestMethod.PUT})
@@ -25,9 +25,26 @@ public class PlayersController {
 
 
     private void validatePlayer(Player player){
-        if(player.getAge() < 18 || player.getName().isEmpty() || player.getMonthsOfExperience() < 1){
+        if(player.getPlayerAge() < 18
+                || player.getName().isEmpty()
+                || player.getName() == null
+                || player.getPlayerMonthsOfExperience() < 1){
             throw new IncorrectDataPutException("You had input wrong data! Check it please");
         }
+    }
+
+    private void updatePlayerValidation(RequestPlayer player, Player currentPlayer, int id){
+        //check if player with such id exist
+        if(currentPlayer == null){
+            throw new NoSuchEntityException("There is no Player with id: " + id);
+        }
+        else if(player.getPlayerAge() < 18
+                || player.getPlayerMonthsOfExperience() < 0
+                || player.getName() == null
+                || player.getName().isEmpty()){
+            throw new IncorrectDataPutException("You had input wrong data! Check it please");
+        }
+
     }
 
     @GetMapping("/get")
@@ -42,13 +59,14 @@ public class PlayersController {
     @GetMapping("/get/{id}")
     public Player getPlayer(@PathVariable int id){
 
-        Optional<Player> playerOptional = playerRepo.findById(id);
-        Player player = playerOptional.get();
+        Player player = playerService.getPlayer(id);
+
+        if(player == null){
+            throw new NoSuchEntityException("There is no player with id: " + id);
+        }
 
         return player;
     }
-
-
 
     @PostMapping("/create")
     public Player addNewPlayer(@RequestBody Player player){
@@ -59,14 +77,14 @@ public class PlayersController {
         return player;
     }
 
+    @PutMapping("/update/{id}")
+    public Player updatePlayerX(@RequestBody RequestPlayer player, @PathVariable int id){
 
+        Player currentPlayer = playerService.getPlayer(id);
 
-    @PutMapping("/update")
-    public Player updatePlayer(@RequestBody Player player){
+        updatePlayerValidation(player, currentPlayer, id);
 
-        validatePlayer(player);
-
-        return playerService.updatePlayer(player);
+        return playerService.updatePlayerX(player, currentPlayer);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -75,7 +93,7 @@ public class PlayersController {
         Player player = playerService.getPlayer(id);
 
         if(player == null){
-            throw new NoSuchTeamsException("There is no player with id: " + id);
+            throw new NoSuchEntityException("There is no player with id: " + id);
         }
         playerRepo.deleteById(id);
     }

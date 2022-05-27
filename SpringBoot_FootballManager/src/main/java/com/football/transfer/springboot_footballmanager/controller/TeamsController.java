@@ -1,16 +1,14 @@
 package com.football.transfer.springboot_footballmanager.controller;
 
-import com.football.transfer.springboot_footballmanager.dao.PlayerRepo;
-import com.football.transfer.springboot_footballmanager.dao.TeamDAO;
+import com.football.transfer.springboot_footballmanager.RequestClasses.RequestTeam;
 import com.football.transfer.springboot_footballmanager.entity.FootballTeam;
 import com.football.transfer.springboot_footballmanager.handlers.ImplossibleToDeleteException;
 import com.football.transfer.springboot_footballmanager.handlers.IncorrectDataPutException;
-import com.football.transfer.springboot_footballmanager.handlers.NoSuchTeamsException;
+import com.football.transfer.springboot_footballmanager.handlers.NoSuchEntityException;
 import com.football.transfer.springboot_footballmanager.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 @RestController
@@ -23,8 +21,25 @@ public class TeamsController {
     private TeamService teamService;
 
     private void validateTeam(FootballTeam team){
-        if(team.getCommission() < 0 && team.getCommission() >10 ||
-                team.getName().isEmpty() || team.getFinances() < 0){
+        if(team.getCommission() < 0
+                || team.getCommission() >10
+                || team.getName().isEmpty()
+                || team.getName() == null
+                || team.getDoubleFinances() < 0){
+            throw new IncorrectDataPutException("You had input wrong data! Check it please");
+        }
+    }
+
+    private void updateTeamValidation(RequestTeam updateTeam, FootballTeam currentTeam, int id){
+        //check if player with such id exist
+        if(currentTeam == null){
+            throw new NoSuchEntityException("There is no team with id: " + id);
+        }
+        else if(updateTeam.getName() == null
+                || updateTeam.getName().isEmpty()
+                || updateTeam.getCommission() < 0
+                || updateTeam.getCommission() > 10
+                || updateTeam.getDoubleFinances() < 0){
             throw new IncorrectDataPutException("You had input wrong data! Check it please");
         }
     }
@@ -48,12 +63,13 @@ public class TeamsController {
     }
 
     @PutMapping("/update")
-    public FootballTeam updateTeam(@RequestBody FootballTeam footballTeam){
+    public FootballTeam updateTeam(@RequestBody RequestTeam updateTeam){
 
-        validateTeam(footballTeam);
+        FootballTeam currentTeam = getTeam(updateTeam.getId());
 
-        teamService.saveTeam(footballTeam);
-        return footballTeam;
+        updateTeamValidation(updateTeam, currentTeam, updateTeam.getId());
+
+        return teamService.updateTeam(updateTeam, currentTeam);
     }
 
     @GetMapping("/get/{id}")
@@ -62,7 +78,7 @@ public class TeamsController {
         FootballTeam footballTeam = teamService.getTeam(id);
 
         if(footballTeam == null){
-                throw new NoSuchTeamsException("There is no team with id: " + id);
+                throw new NoSuchEntityException("There is no team with id: " + id);
         }
 
         return footballTeam;
@@ -77,7 +93,7 @@ public class TeamsController {
             throw new ImplossibleToDeleteException("You can not delete team with players!");
         }
         else if(team == null){
-            throw new NoSuchTeamsException("There is no team with id: " + id);
+            throw new NoSuchEntityException("There is no team with id: " + id);
         }
         teamService.deleteTeam(id);
     }
