@@ -39,8 +39,7 @@ public class PlayerDAOImpl implements PlayerDAO {
         Session session = entityManager.unwrap(Session.class);
 
         currentPlayer.setName(player.getName());
-        currentPlayer.setAge(player.getAge());
-        currentPlayer.setMonthsOfExperience(player.getMonthsOfExperience());
+        currentPlayer.setBirthDate(player.getBirthDate());
 
         session.update(currentPlayer);
 

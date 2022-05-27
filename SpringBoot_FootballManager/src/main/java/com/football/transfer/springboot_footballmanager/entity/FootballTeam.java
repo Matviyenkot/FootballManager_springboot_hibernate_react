@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class FootballTeam {
 
     @Min(0)
     @Column(name = "finances")
-    private double  finances;
+    private BigDecimal finances;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH},
             mappedBy = "team")
@@ -45,7 +46,7 @@ public class FootballTeam {
     public FootballTeam() {
     }
 
-    public FootballTeam(String name, double commission, double finances) {
+    public FootballTeam(String name, double commission, BigDecimal finances) {
         this.name = name;
         this.commission = commission;
         this.finances = finances;
@@ -84,12 +85,19 @@ public class FootballTeam {
         this.commission = commission;
     }
 
-    public double getFinances() {
+    public BigDecimal getFinances() {
         return finances;
     }
 
+    @JsonIgnore
+    public double getDoubleFinances(){
+
+        double doubleFinances = finances.doubleValue();
+        return doubleFinances;
+    }
+
     public void setFinances(double finances) {
-        this.finances = finances;
+        this.finances = BigDecimal.valueOf(finances);
     }
 
     public List<Player> getPlayers() {

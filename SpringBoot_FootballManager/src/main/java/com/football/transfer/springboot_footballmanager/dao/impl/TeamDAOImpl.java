@@ -59,70 +59,12 @@ public class TeamDAOImpl implements TeamDAO {
     }
 
     @Override
-    public FootballTeam updateTeam(RequestTeam updateTeam, FootballTeam currentTeam) {
+    public FootballTeam updateTeam( FootballTeam currentTeam) {
 
         Session session = entityManager.unwrap(Session.class);
-
-        currentTeam.setName(updateTeam.getName());
-        currentTeam.setFinances(updateTeam.getFinances());
-        currentTeam.setCommission(updateTeam.getCommission());
 
         session.update(currentTeam);
 
         return currentTeam;
     }
-
-
-    //player can have no team
-    @Override
-    public FootballTeam addPlayerToTeam(int teamId, int playerId) {
-
-        double price = 0;
-
-        Session session = entityManager.unwrap(Session.class);
-
-        //player who is going to be transfered
-        Player player = session.get(Player.class, playerId);
-        if(player == null){
-            throw new NoSuchEntityException("There is no player with id: " + playerId);
-        }
-
-        //new team which is going to buy player
-        FootballTeam newTeam = session.get(FootballTeam.class, teamId);
-        if(newTeam == null){
-            throw new NoSuchEntityException("There is no team with id: " + teamId);
-        }
-
-        if(player.getTeam() != null){
-            //player's current team
-            FootballTeam playerCurrentTeam = player.getTeam();
-
-            //finances of new team
-            double newTeamFinances = newTeam.getFinances();
-
-            //commission of new team
-            double newTeamCommission = newTeam.getCommission()/100;
-
-            price = player.getMonthsOfExperience() * 100000.0 / player.getAge();
-            price = price + (price * newTeamCommission);
-
-            price = Math.round(price);
-
-            if(newTeamFinances < price){
-                throw new NotEnoughMoneyException("New team don't have enough money to buy player!");
-            }
-
-            playerCurrentTeam.setFinances(playerCurrentTeam.getFinances() + price);
-
-            newTeam.setFinances(newTeam.getFinances() - price);
-        }
-
-        newTeam.addPlayerToTeam(player);
-        session.saveOrUpdate(newTeam);
-
-
-        return newTeam;
-    }
-
-
 }

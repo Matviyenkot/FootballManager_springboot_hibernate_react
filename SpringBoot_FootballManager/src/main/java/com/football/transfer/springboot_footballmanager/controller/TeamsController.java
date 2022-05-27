@@ -21,8 +21,11 @@ public class TeamsController {
     private TeamService teamService;
 
     private void validateTeam(FootballTeam team){
-        if(team.getCommission() < 0 && team.getCommission() >10 ||
-                team.getName().isEmpty() || team.getFinances() < 0){
+        if(team.getCommission() < 0
+                || team.getCommission() >10
+                || team.getName().isEmpty()
+                || team.getName() == null
+                || team.getDoubleFinances() < 0){
             throw new IncorrectDataPutException("You had input wrong data! Check it please");
         }
     }
@@ -32,8 +35,11 @@ public class TeamsController {
         if(currentTeam == null){
             throw new NoSuchEntityException("There is no team with id: " + id);
         }
-        else if(updateTeam.getName() == null || updateTeam.getCommission() < 0 && updateTeam.getCommission() > 10
-                    || updateTeam.getFinances() < 0){
+        else if(updateTeam.getName() == null
+                || updateTeam.getName().isEmpty()
+                || updateTeam.getCommission() < 0
+                || updateTeam.getCommission() > 10
+                || updateTeam.getDoubleFinances() < 0){
             throw new IncorrectDataPutException("You had input wrong data! Check it please");
         }
     }

@@ -7,15 +7,13 @@ import com.football.transfer.springboot_footballmanager.entity.Player;
 import java.util.List;
 
 public interface TeamDAO {
-    public List<FootballTeam> getAllTeams();
+    List<FootballTeam> getAllTeams();
 
-    public void saveTeam(FootballTeam footballTeam);
+    void saveTeam(FootballTeam footballTeam);
 
-    public FootballTeam getTeam(int id);
+    FootballTeam getTeam(int id);
 
-    public void deleteTeam(int id);
+    void deleteTeam(int id);
 
-    public FootballTeam updateTeam(RequestTeam team, FootballTeam currentTeam);
-
-    public FootballTeam addPlayerToTeam(int teamId, int playerId);
+    FootballTeam updateTeam(FootballTeam currentTeam);
 }

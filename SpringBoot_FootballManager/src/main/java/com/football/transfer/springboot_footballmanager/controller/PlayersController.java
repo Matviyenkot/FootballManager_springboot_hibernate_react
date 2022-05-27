@@ -25,7 +25,10 @@ public class PlayersController {
 
 
     private void validatePlayer(Player player){
-        if(player.getAge() < 18 || player.getName().isEmpty() || player.getMonthsOfExperience() < 1){
+        if(player.getPlayerAge() < 18
+                || player.getName().isEmpty()
+                || player.getName() == null
+                || player.getPlayerMonthsOfExperience() < 1){
             throw new IncorrectDataPutException("You had input wrong data! Check it please");
         }
     }
@@ -35,8 +38,10 @@ public class PlayersController {
         if(currentPlayer == null){
             throw new NoSuchEntityException("There is no Player with id: " + id);
         }
-        else if(player.getAge() < 18 && player.getAge()!=0
-                || player.getMonthsOfExperience() < 0 || player.getName() == null){
+        else if(player.getPlayerAge() < 18
+                || player.getPlayerMonthsOfExperience() < 0
+                || player.getName() == null
+                || player.getName().isEmpty()){
             throw new IncorrectDataPutException("You had input wrong data! Check it please");
         }
 
@@ -63,8 +68,6 @@ public class PlayersController {
         return player;
     }
 
-
-
     @PostMapping("/create")
     public Player addNewPlayer(@RequestBody Player player){
 
@@ -73,8 +76,6 @@ public class PlayersController {
         playerService.savePlayer(player);
         return player;
     }
-
-
 
     @PutMapping("/update/{id}")
     public Player updatePlayerX(@RequestBody RequestPlayer player, @PathVariable int id){
@@ -96,7 +97,5 @@ public class PlayersController {
         }
         playerRepo.deleteById(id);
     }
-
-
 
 }

@@ -6,8 +6,8 @@ import org.hibernate.annotations.SelectBeforeUpdate;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
 @Validated
 @Entity
@@ -26,13 +26,8 @@ public class Player {
     @Column(name = "name")
     private String name;
 
-    @Min(17)
-    @Column(name = "age")
-    private int age;
-
-    @Min(1)
-    @Column(name = "experience")
-    private int monthsOfExperience;
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "team_id")
@@ -42,11 +37,36 @@ public class Player {
     public Player() {
     }
 
-    public Player(String name, int age, int monthsOfExperience) {
+    public Player(String name, LocalDate birthDate) {
         this.name = name;
-        this.age = age;
-        this.monthsOfExperience = monthsOfExperience;
+        this.birthDate = birthDate;
     }
+
+    @JsonIgnore
+    public double getPlayerPrice(){
+
+        return getPlayerMonthsOfExperience() * 100000.0 / getPlayerAge();
+    }
+
+    @JsonIgnore
+    public int getPlayerAge(){
+
+        int age = LocalDate.now().getYear() - birthDate.getYear();
+
+        return age;
+    }
+
+    @JsonIgnore
+    public int getPlayerMonthsOfExperience(){
+
+        LocalDate startPlaying = birthDate.plusYears(17);
+
+        int monthsOfExperience = (LocalDate.now().getYear() - startPlaying.getYear()) * 12
+                + ( Math.abs (LocalDate.now().getMonthValue() -startPlaying.getMonthValue() ) );
+
+        return monthsOfExperience;
+    }
+
 
     public int getId() {
         return id;
@@ -56,28 +76,20 @@ public class Player {
         this.id = id;
     }
 
-    public String getName() {
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+        public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public int getMonthsOfExperience() {
-        return monthsOfExperience;
-    }
-
-    public void setMonthsOfExperience(int monthsOfExperience) {
-        this.monthsOfExperience = monthsOfExperience;
     }
 
     public FootballTeam getTeam() {
@@ -93,8 +105,7 @@ public class Player {
         return "Player{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", age=" + age +
-                ", monthsOfExperience=" + monthsOfExperience +
+                ", birthDate=" + birthDate +
                 '}';
     }
 }

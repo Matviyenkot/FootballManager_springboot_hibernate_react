@@ -1,20 +1,36 @@
 package com.football.transfer.springboot_footballmanager.RequestClasses;
 
+import java.time.LocalDate;
+
 public class RequestPlayer {
 
     private String name;
 
-    private int age;
-
-    private int monthsOfExperience;
+    private LocalDate birthDate;
 
     public RequestPlayer() {
     }
 
-    public RequestPlayer(String name, int age, int monthsOfExperience) {
+    public RequestPlayer(String name, LocalDate birthDate) {
         this.name = name;
-        this.age = age;
-        this.monthsOfExperience = monthsOfExperience;
+        this.birthDate = birthDate;
+    }
+
+    public int getPlayerAge(){
+
+        int age = LocalDate.now().getYear() - birthDate.getYear();
+
+        return age;
+    }
+
+    public int getPlayerMonthsOfExperience(){
+
+        LocalDate startPlaying = birthDate.plusYears(17);
+
+        int monthsOfExperience = (LocalDate.now().getYear() - startPlaying.getYear()) * 12
+                + ( Math.abs (LocalDate.now().getMonthValue() -startPlaying.getMonthValue() ) );
+
+        return monthsOfExperience;
     }
 
     public String getName() {
@@ -25,19 +41,11 @@ public class RequestPlayer {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public int getMonthsOfExperience() {
-        return monthsOfExperience;
-    }
-
-    public void setMonthsOfExperience(int monthsOfExperience) {
-        this.monthsOfExperience = monthsOfExperience;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 }

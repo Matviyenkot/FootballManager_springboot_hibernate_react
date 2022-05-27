@@ -1,5 +1,9 @@
 package com.football.transfer.springboot_footballmanager.RequestClasses;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.math.BigDecimal;
+
 public class RequestTeam {
 
     private int id;
@@ -8,12 +12,12 @@ public class RequestTeam {
 
     private double commission;
 
-    private double finances;
+    private BigDecimal finances;
 
     public RequestTeam() {
     }
 
-    public RequestTeam(String name, double commission, double finances) {
+    public RequestTeam(String name, double commission, BigDecimal finances) {
         this.name = name;
         this.commission = commission;
         this.finances = finances;
@@ -43,11 +47,18 @@ public class RequestTeam {
         this.commission = commission;
     }
 
-    public double getFinances() {
+    public BigDecimal getFinances() {
         return finances;
     }
 
+    @JsonIgnore
+    public double getDoubleFinances(){
+
+        double doubleFinances = finances.doubleValue();
+        return doubleFinances;
+    }
+
     public void setFinances(double finances) {
-        this.finances = finances;
+        this.finances = BigDecimal.valueOf(finances);
     }
 }

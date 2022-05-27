@@ -6,16 +6,16 @@ import com.football.transfer.springboot_footballmanager.entity.FootballTeam;
 import java.util.List;
 
 public interface TeamService {
-    public List<FootballTeam> getAllTeams();
+    List<FootballTeam> getAllTeams();
 
-    public void saveTeam(FootballTeam footballTeam);
+    void saveTeam(FootballTeam footballTeam);
 
-    public FootballTeam updateTeam(RequestTeam footballTeam, FootballTeam currentTeam);
+    FootballTeam updateTeam(RequestTeam footballTeam, FootballTeam currentTeam);
 
-    public FootballTeam getTeam(int id);
+    FootballTeam getTeam(int id);
 
-    public void deleteTeam(int id);
+    void deleteTeam(int id);
 
-    public FootballTeam addPlayerToTeam(int teamId, int playerId);
+    FootballTeam addPlayerToTeam(int teamId, int playerId);
 
 }
