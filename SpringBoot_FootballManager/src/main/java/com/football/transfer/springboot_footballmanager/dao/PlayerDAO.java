@@ -9,7 +9,7 @@ public interface PlayerDAO {
 
     void savePlayer(Player player);
 
-    Player updatePlayerX(RequestPlayer player, Player currentPlayer);
+    Player updatePlayerX(Player currentPlayer);
 
 
 }

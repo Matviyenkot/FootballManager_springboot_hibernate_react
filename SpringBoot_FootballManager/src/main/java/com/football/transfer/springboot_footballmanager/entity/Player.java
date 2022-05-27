@@ -1,11 +1,8 @@
 package com.football.transfer.springboot_footballmanager.entity;
 
 import com.fasterxml.jackson.annotation.*;
-<<<<<<< HEAD
-=======
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SelectBeforeUpdate;
->>>>>>> fixedUpdate
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
@@ -87,7 +84,7 @@ public class Player {
         this.birthDate = birthDate;
     }
 
-        public String getName() {
+    public String getName() {
         return name;
     }
 

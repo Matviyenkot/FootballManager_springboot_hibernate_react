@@ -32,8 +32,10 @@ public class PlayerServiceImpl implements PlayerService {
     @Transactional
     public Player updatePlayerX(RequestPlayer player, Player currentPlayer) {
 
+        currentPlayer.setName(player.getName());
+        currentPlayer.setBirthDate(player.getBirthDate());
 
-        return playerDAO.updatePlayerX(player, currentPlayer);
+        return playerDAO.updatePlayerX(currentPlayer);
     }
 
 }
